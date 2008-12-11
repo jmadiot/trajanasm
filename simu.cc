@@ -377,7 +377,6 @@ void step()
 			case 16:   // rts, 
 				//check sign of imm
 				tempPC= mem[r[127]]+1;
-				cout << "rts" << r[127] << endl;
 				r[127]--; //this is positive (or should be)
 			break;
 			case 17:   // nop, 
