@@ -377,6 +377,7 @@ void step()
 			case 16:   // rts, 
 				//check sign of imm
 				tempPC= mem[r[127]]+1;
+				cout << "rts" << r[127] << endl;
 				r[127]--; //this is positive (or should be)
 			break;
 			case 17:   // nop, 
@@ -587,6 +588,18 @@ void step()
 
 }
 
+/*
+utilisation :
+simu -v : verbose mode
+simu -a 57 : actualise l'affichage seulement tous les 57 pas
+
+pas défaut : 10
+ces options ne sont pas cumulables. (en même temps, le -v ralentit l'exécution.)
+
+*/
+
+
+
 int main(int argc, char* argv[])
 {
 	verbose = 0;
@@ -594,6 +607,15 @@ int main(int argc, char* argv[])
 		string opt(argv[1]);
 		if(opt=="-v")
 			verbose=1;
+	}
+	int updateper = 10;
+	if (argc>2) {
+		string opt(argv[1]);
+		if(opt=="-a") {
+		    string par(argv[2]);
+		    istringstream sstr(par);
+    		sstr >> updateper;
+		}
 	}
 	
 	try{
@@ -627,12 +649,16 @@ int main(int argc, char* argv[])
 	XFlush(dpy);
 
 	pc = 0x0800;
+	
+	int n=0;
 
 	while (true) {
 		step();
-		render_all();
-		XPutImage(dpy, w, gc, img, 0, 0, 0, 0, 640, 480);
-		XFlush(dpy);  
+		if(!((++n)%updateper)) {
+			render_all();
+			XPutImage(dpy, w, gc, img, 0, 0, 0, 0, 640, 480);
+			XFlush(dpy);
+		}
 	}
 
 	return 0;
