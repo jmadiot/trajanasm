@@ -29,23 +29,29 @@ plot:
 	clr r9
 
 init:
+	; r5 <- case en haut à gauche
 	ldl 0
 	ldh 0x20
 	mv2reg r5
 	
+	; r101 <- '4'  puis  r102 <- '2'
 	ldl 31
 	mv2reg r101
 	ldl 29
 	mv2reg r102
 	
+	; se case en haut à gauche, affiche 42
 	mv2acc r5
 	wrinc r101
 	wrinc r102
+	
+	; se case en haut à gauche, saute une ligne, affiche 42
 	mv2acc r5
 	add r15
 	wrinc r101
 	wrinc r102
 	
+	; charge x=39, y=29, c='J'
 	ldl 10
 	mv2reg r3
 	ldl 39
