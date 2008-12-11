@@ -32,7 +32,7 @@ init:
 	; r5 <- case en haut à gauche
 	ldl 0
 	ldh 0x20
-	mv2reg r5
+	mv2reg r5    
 	
 	; r101 <- '4'  puis  r102 <- '2'
 	ldl 31
