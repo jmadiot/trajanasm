@@ -128,6 +128,14 @@
 
 	ldl -1
 	ldh -1
+	
+	mv2reg r42
+	ldl 0x50
+	wr r42
+	clr r42
+	rd r42
+	mv2acc r42
+	
 	!s add r100
 	mv2acc r5
 	add r7
@@ -170,9 +178,27 @@
 
 
 
+	;ldl -1
+	;ldh -1
+	;mv2reg r66
+	;ldl 0x51
+	;wr r66
 	
+	;ldl 0
+	;mv2reg r66
+	;ldl 0x52
+	;wr r66
 	
+	;ldl 1
+	;mv2reg r66
+	;ldl 0x53
+	;wr r66
 	
+	;ldl 51
+	;rd r88
+	;mv2acc r88	
+	
+
 	
 	
 	

@@ -144,6 +144,7 @@ void render_all()
 }
 
 
+int tractopelle = 0;
 
 
 void step()
@@ -158,6 +159,8 @@ void step()
 	uint16_t dev;
 	int j;
 	uint16_t val;
+	
+	if(!(tractopelle%10000)) printf("mem[0x50..0x53]=%+d %+d %+d %+d\n", mem[0x50], mem[0x51], mem[0x52], mem[0x53]);
 
 	// FETCH
 	uint16_t instr = mem[pc]; 			//fetch the instruction
