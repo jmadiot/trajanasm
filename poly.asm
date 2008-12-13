@@ -123,6 +123,55 @@ boucle:
 	
 ?p NE jmri boucle
 
+
+
+
+
+	;evaluation
+	ldl 2
+	mv2reg r6
+	
+	;r7 <- adresse de ai
+	mv2acc r4
+	add r5
+	mv2reg r7
+		
+	;r9 <- resultat
+	clr r9
+	
+	;r10 <-r4
+	mv2acc r4
+	mv2reg r10
+
+debut:	
+	mv2acc r10
+	!s add r100
+?p LT jmri fin
+	
+	;i--	
+	sub r101
+	mv2reg r10
+
+	; r8 <- ai
+	mv2acc r7
+	rddec r8
+	mv2reg r7
+	
+	;r9 <- r9*r6+ai
+	mv2acc r9
+	!s mul r6
+?p OV jmri erreur
+	!s add r8
+?p OV jmri erreur
+	mv2reg r9
+	jmri debut
+	
+; a completer.... 
+erreur:
+
+fin:
+
+
 nosegfault:
 	jmri nosegfault
 
