@@ -5,7 +5,7 @@
 	ldl 5
 	mv2reg r2
 	ldl -1
-	ldh -1
+	ldh 127
 	mv2reg r99
 	
 	;r98 : adresse du pixel ou il faut écrire

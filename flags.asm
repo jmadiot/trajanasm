@@ -43,6 +43,7 @@
 	mv2acc r5
 	wrinc r50
 	wrinc r37
+	wrinc r37
 
 ?p GT wrinc r107
 ?p GT wrinc r120
@@ -86,6 +87,7 @@
 	mv2acc r5
 	add r7
 	wrinc r51
+	wrinc r37
 	wrinc r37
 
 ?p GT wrinc r107
@@ -175,6 +177,77 @@
 ?p NC wrinc r114
 ?p NC wrinc r103
 ?p NC wrinc r37
+
+
+
+
+
+
+
+
+
+
+
+
+	ldl -1
+	ldh -1
+	mv2reg r3
+	
+	mv2reg r42
+	ldl 0x50
+	wr r42
+	clr r42
+	rd r42
+	mv2acc r42
+	
+	!s add r3
+	mv2acc r5
+	add r7
+	add r7
+	add r7
+	wrinc r49
+	wrinc r51
+	wrinc r49
+	wrinc r51
+	wrinc r37
+
+?p GT wrinc r107
+?p GT wrinc r120
+?p GT wrinc r37
+
+?p GE wrinc r107
+?p GE wrinc r105
+?p GE wrinc r37
+
+?p EQ wrinc r105
+?p EQ wrinc r117
+?p EQ wrinc r37
+
+?p NE wrinc r114
+?p NE wrinc r105
+?p NE wrinc r37
+
+?p LE wrinc r112
+?p LE wrinc r105
+?p LE wrinc r37
+
+?p LT wrinc r112
+?p LT wrinc r120
+?p LT wrinc r37
+
+?p OV wrinc r115
+?p OV wrinc r122
+?p OV wrinc r37
+
+?p NC wrinc r114
+?p NC wrinc r103
+?p NC wrinc r37
+
+
+
+
+
+
 
 
 

@@ -22,10 +22,14 @@ clean:
 	rm -f asm
 
 
+jm:jmsimu jmasm
 
 
+jmsimu:
+	g++ jmsimu.cc -lX11 -L/usr/X11R6/lib -lX11 -o jmsimu
 
-
+jmasm:
+	
 
 
 

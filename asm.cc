@@ -1,9 +1,4 @@
-/*
-  asm.cc du cours ASR1 2008
-  Ce fichier est distrubué sous licence GPL
-*/
 #include <cstdlib>
-
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -11,7 +6,7 @@
 #include <list>
 #include <map>
 #include <vector>
-#include <math.h>
+//#include <math.h>
 
 using namespace std;
 
@@ -23,7 +18,7 @@ vector<uint32_t> hexcode; // the code is compiled into this vector
 map<string, uint32_t> label;   // the labels 
 
 // A structure set up in the first pass, and used in the second pass to resolve labels
-enum atr_type {JMI, JMRI, JMSI,LDL, LDL16, LDL32} ;
+enum atr_type {JMI, JMRI, JMSI, LDL, LDL16, LDL32} ;
 
 struct address_to_resolve {
   uint32_t hexcode_index; // index in the hexcode vector
@@ -52,22 +47,14 @@ uint32_t read_condpred(list<string> &slist) {
 		//Now the options are: GT, GE, EQ, NE, LE, OV, NV
 		slist.pop_front();
 		s = slist.front();
-		if (s ==  "GT")
-			pred_code = 0;
-		else if(s=="GE")
-			pred_code = 1;
-		else if(s=="EQ")
-			pred_code = 2;
-		else if(s=="NE")
-			pred_code = 3;
-		else if(s=="LE")
-			pred_code = 4;
-		else if(s=="LT")
-			pred_code = 5;
-		else if(s=="OV")
-			pred_code = 6;
-		else if(s=="NC")
-			pred_code = 7;
+		if (s ==  "GT")  pred_code = 0;
+		else if(s=="GE") pred_code = 1;
+		else if(s=="EQ") pred_code = 2;
+		else if(s=="NE") pred_code = 3;
+		else if(s=="LE") pred_code = 4;
+		else if(s=="LT") pred_code = 5;
+		else if(s=="OV") pred_code = 6;
+		else if(s=="NC") pred_code = 7;
 		else{ 
 			std::ostringstream o;
 			o << "Error in " <<  __FILE__ << "@" << __LINE__ << ". Invalid option for predicate: got " << s << " expected: "
@@ -256,7 +243,7 @@ uint32_t read_imm16_or_label(list<string>  & slist){
 
 
 // this function returns the 16-bit code of an instruction
-uint32_t read_op(list<string>  & slist) {
+uint32_t read_op(list<string>  & slist, uint32_t current_adress) {
   uint32_t code;
   code = 0;
   uint32_t pred;
@@ -335,6 +322,20 @@ uint32_t read_op(list<string>  & slist) {
     code += 9 << 11;
     code += read_reg(slist);
   }
+  
+  
+  else if (slist.front() == "ldlline") {  //Enregistre le numéro de la ligne en cours dans l'acc, en partie basse
+    slist.pop_front();
+    code += 0 << 11;
+    code += current_adress%256;
+  }
+  else if (slist.front() == "ldhline") {  //Enregistre le numéro de la ligne en cours dans l'acc, en partie basse
+    slist.pop_front();
+    code += 1 << 11;
+    code += current_adress>>8;
+  }
+  
+  
   else if (slist.front() == "jmp") {
     slist.pop_front();
     code += 10 << 11;
@@ -487,7 +488,6 @@ uint32_t read_op(list<string>  & slist) {
         exit(-1);
 	}
   }
-  
   else {
     cerr << "Error, line " << line_number << ": unknown opcode '" << slist.front() << "'." << endl;
     exit(-1);
@@ -499,135 +499,165 @@ uint32_t read_op(list<string>  & slist) {
 /** This is where the fun part starts */
 int main(int argc, char* argv[]){
 
-  verbose = 0;
-  if (argc>1) {
-    string opt(argv[1]);
-    if(opt=="-v")
-      verbose=1;
-  }
+	verbose = 0;
+	if (argc>1) {
+		string opt(argv[1]);
+		if(opt=="-v")
+		verbose=1;
+	}
 
 
-  line_number = 0; // the line in the source code
-  current_address = base_address; // the address in the object code
-  
-  // Pass 1 
-  if(verbose){
-    cerr << "**** PASS 1 ****" << endl;
-  }
-  while (!cin.eof()) {
+	line_number = 0; // the line in the source code
+	current_address = base_address; // the address in the object code
 
-    // read a line
-    char buf[256];
-    cin.getline(buf, 256);
-    string line(buf);
-    line_number++;
-    if (line.empty())
-      continue;
-    
-    // break the line into tokens
-    istringstream sstr(line);
-    list<string> slist;
-    while (!sstr.eof()) {
-      string str;
-      sstr >> str;
-      if (str[0] == ';') // comment: stop parsing here
-        break;      
-      else{
-        if (!str.empty()) 
-          slist.push_back(str);
-      }
-    }
+	// Pass 1 
+	if(verbose){
+		cerr << "**** PASS 1 ****" << endl;
+	}
+	while (!cin.eof()) {
 
-    if (!slist.empty()) {     // Now process the tokens
-      string s;
-      uint32_t code = 0;
+		// read a line
+		char buf[256];
+		cin.getline(buf, 256);
+		string line(buf);
+		line_number++;
+		if (line.empty())
+			continue;
 
-      s = slist.front();
+		// break the line into tokens
+		istringstream sstr(line);
+		list<string> slist;
+		while (!sstr.eof()) {
+			string str;
+			sstr >> str;
+			if (str[0] == ';') // comment: stop parsing here
+				break;      
+			else
+			{
+				if (!str.empty()) 
+				slist.push_back(str);
+			}
+		}
 
-      // is the first token a label ?
-      if (s[s.length()-1] == ':') {
-        string id = s.substr(0, s.length()-1);
-        // Does the label already exist ?
-        if (label.find(id) != label.end()) {
-          cerr << "Error, label " << id  << " already defined " << endl;
-          exit(-1);  
-        }
-        label[id] = current_address;        
-        slist.pop_front(); // remove it
-        if(verbose){
-          cerr << "label " << id << " @ " << setfill('0')  << setw(4) << hex << current_address <<endl;
-        }
-      }
+		if (!slist.empty()) {     // Now process the tokens
+			string s;
+			uint32_t code = 0;
 
-      if (!slist.empty()) {     //proceed, if this is not a label
-        s = slist.front();
-        
-		//normal instructions
-        uint32_t instr = read_op(slist); //get the instruction code
-        code = instr; //the code of the instruction
-        hexcode.push_back(code);//put the code into hexcode /XXX only 5 bits not good for hex
-        if(verbose){
-        	cerr << "@ " << setfill('0')  << setw(4) << hex << current_address  //TODO fix verbose printings
-                << ": "  << setw(4) << hex << code << endl;
-        }
-        current_address ++;
-        
-      }
-    }
-  }
-  // Pass 2
-if(verbose){
-  cerr << "**** PASS 2 ****" << endl;
-}
+			s = slist.front();
 
-  // Fix all the missing labels
-  for (uint32_t i=0; i<todo.size(); i++) {
-    address_to_resolve atr = todo[i];
-    uint32_t index = atr.hexcode_index;
-    atr_type type = atr.type;
-    string s = atr.label;
-    uint32_t instr;
+			if (s.length()==5 && s=="datax") {
+				slist.pop_front();
+				while(!slist.empty()) {
+					s = slist.front();
+					istringstream iss(s);
+					int e;
+					iss >> hex >> e;
+					slist.pop_front();
+					hexcode.push_back(e);
+				}
+				
+			}
 
-    // look up the label
-    if (label.find(s) == label.end()) {
-          cerr << "Error, label " << s  << " is used but not defined " << endl;
-          exit(-1);  
-    }
-    // OK, the label exists
-    uint32_t resolved_address = label[s];      
-    uint32_t instr_address = base_address + index;
-    // Now put the address to its proper place
-    if ((type==JMRI) || (type==JMSI)) {
-      instr = hexcode[index];
-      int delta = resolved_address - instr_address;
-      if(delta<-128 || delta>127) {
-          cerr << "Error, jmri to label " << s  << " out of range " << endl;
-          exit(-1);  
-        }
-      
-	  if (delta<0)
-		delta = 256 + delta; //2's complement
-      instr=instr+(delta);
-      hexcode[index] = instr;
-      if(verbose){
-        cerr << "Resolved label " << s 
-             << ", at address " << setfill('0')  << setw(4) << hex << instr_address
-             << " code is now " << setfill('0')  << setw(4) << hex << instr << endl;
-      }
-    }
-    
-  }
+			if (s.length()==4 && s=="data") {
+				slist.pop_front();
+				while(!slist.empty()) {
+					s = slist.front();
+					istringstream iss(s);
+					int e;
+					iss >> e;
+					slist.pop_front();
+					hexcode.push_back(e);
+					current_address ++;
+				}
+				
+			}
 
-  // Output
-  if(verbose){
-    cerr << "Outputing object code..." << endl;
-  }
-  for (uint32_t i=0; i<hexcode.size(); i++) {
-      cout << setfill('0')  << setw(4) << hex << hexcode[i] << endl;
-  }
-  if(verbose){
-    cerr << "...done" << endl;
-  }
+
+			// is the first token a label ?
+			if (s[s.length()-1] == ':') {
+				string id = s.substr(0, s.length()-1);
+				// Does the label already exist ?
+				if (label.find(id) != label.end()) {
+					cerr << "Error, label " << id  << " already defined " << endl;
+					exit(-1);  
+				}
+				label[id] = current_address;        
+				slist.pop_front(); // remove it
+				if(verbose){
+					cerr << "label " << id << " @ " << setfill('0')  << setw(4) << hex << current_address <<endl;
+				}
+			}
+
+			if (!slist.empty()) {     //proceed, if this is not a label
+				s = slist.front();
+
+				//normal instructions
+				uint32_t instr = read_op(slist, current_address); //get the instruction code
+				code = instr; //the code of the instruction
+				hexcode.push_back(code);//put the code into hexcode /XXX only 5 bits not good for hex
+				if(verbose){
+					cerr << "@ " << setfill('0')  << setw(4) << hex << current_address  //TODO fix verbose printings
+					<< ": "  << setw(4) << hex << code << endl;
+				}
+				current_address ++;
+
+			}
+		}
+	}
+	
+	// Pass 2
+	if(verbose){
+		cerr << "**** PASS 2 ****" << endl;
+	}
+
+	// Fix all the missing labels
+	for (uint32_t i=0; i<todo.size(); i++) {
+		address_to_resolve atr = todo[i];
+		uint32_t index = atr.hexcode_index;
+		atr_type type = atr.type;
+		string s = atr.label;
+		uint32_t instr;
+
+		// look up the label
+		if (label.find(s) == label.end()) {
+			cerr << "Error, label " << s  << " is used but not defined " << endl;
+			exit(-1);  
+		}
+		// OK, the label exists
+		uint32_t resolved_address = label[s];      
+		uint32_t instr_address = base_address + index;
+		// Now put the address to its proper place
+		if ((type==JMRI) || (type==JMSI)) {
+			instr = hexcode[index];
+			int delta = resolved_address - instr_address;
+			if(delta<-128 || delta>127) {
+				cerr << "Error, jmri to label " << s  << " out of range " << endl;
+				exit(-1);  
+			}
+
+			if (delta<0)
+				delta = 256 + delta; //2's complement
+			instr=instr+(delta);
+			hexcode[index] = instr;
+			if(verbose){
+				cerr << "Resolved label " << s 
+				<< ", at address " << setfill('0')  << setw(4) << hex << instr_address
+				<< " code is now " << setfill('0')  << setw(4) << hex << instr << endl;
+			}
+		}
+
+	}
+
+	// Output
+	if(verbose){
+		cerr << "Outputing object code..." << endl;
+	}
+	for (uint32_t i=0; i<hexcode.size(); i++) {
+		cout << setfill('0')  << setw(4) << hex << hexcode[i] << endl;
+	}
+	if(verbose){
+		cerr << "...done" << endl;
+	}
 }
 
 
