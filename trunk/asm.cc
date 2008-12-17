@@ -368,7 +368,7 @@ uint32_t read_op(list<string>  & slist, uint32_t current_adress) {
     code += 13 << 11; 
     code += read_imm8_or_label(slist, JMRI);
 	if (sr>0) {
-		cerr << "Error, line " << line_number << ": !s option noTODOd in "<< slist.front() <<" ."<<  endl;
+		cerr << "Error, line " << line_number << ": !s option useless in "<< slist.front() <<" ."<<  endl;
         exit(-1);
 	}
   }
@@ -571,6 +571,21 @@ int main(int argc, char* argv[]){
 				}
 				
 			}
+			
+			if (s.length()==10 && s=="datasigned") {
+				slist.pop_front();
+				while(!slist.empty()) {
+					s = slist.front();
+					istringstream iss(s);
+					int e;
+					iss >> e;
+					if(e<0) e=(e+1)+0xFFFF;
+					slist.pop_front();
+					hexcode.push_back(e);
+					current_address ++;
+				}
+				
+			}
 
 
 			// is the first token a label ?
@@ -631,7 +646,7 @@ int main(int argc, char* argv[]){
 			instr = hexcode[index];
 			int delta = resolved_address - instr_address;
 			if(delta<-128 || delta>127) {
-				cerr << "Error, jmri to label " << s  << " out of range " << endl;
+				cerr << "Error, jmri to label " << s  << " out of range (" << delta << ")" << endl;
 				exit(-1);  
 			}
 

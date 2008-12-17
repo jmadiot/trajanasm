@@ -5,6 +5,9 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 
+//for sleep :
+#include <unistd.h>
+
 using namespace std;
 
 int verbose;
@@ -253,6 +256,7 @@ void step()
 				r[0]--;
 			break;
 			case 10:  // jmp
+				//cout << "r[reg]=" << r[reg] << " reg=" << reg << endl;
 				tempPC = r[reg];
 			break;
 			case 11:   // jmr, add Ri to PC     CHECKED !!
@@ -264,7 +268,7 @@ void step()
 					tempPC = pc - ((0xFFFF ^ r[reg])+1);
 			break;
 			case 12:   // jmi
-				/*
+				
 				if (imm>127) //trying to jump at a negative address
 				{
 					std::ostringstream o;
@@ -272,13 +276,13 @@ void step()
 					throw o.str();
 				} 
 				tempPC = imm;
-				*/
+				
 				cout << "Never use jmi, too dangerous.\n";
 			break;
 			case 13:   // jmri, ON VA DIRE QU'ON EMPILE, c'est celui qui marche...
 				//check sign of imm
-				mem[r[127]] = pc;
-				r[127]++;
+				//mem[r[127]] = pc;
+				//r[127]++;
 				signImm = imm>>7;
 				if (signImm==0) 
 					tempPC = pc + imm; //jump forward
@@ -308,7 +312,9 @@ void step()
 				r[127]--; //this is positive (or should be) ATTENTION ICI !! Pfff ça m'a fait perdre beaucoup de temps
 				tempPC= mem[r[127]]+1;
 			break;
-			case 17:   // nop, 
+			case 17:   // nop,
+				cout << "NOP !" << endl;
+				sleep(1);
 			break;
 			case 18:   // add,
 				

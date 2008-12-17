@@ -36,14 +36,14 @@
 	mv2reg r4
 	
 	;a0 puis a1 puis a2 puis a3
-	ldl 2
-	mv2reg r80
-	ldl 0
-	mv2reg r81
-	ldl -1
-	ldh -1
-	mv2reg r82
 	ldl 7
+	mv2reg r80
+	ldl -5
+	ldh -1
+	mv2reg r81
+	ldl 9
+	mv2reg r82
+	ldl 2
 	mv2reg r83
 	
 	;adresse : arbitraire
@@ -68,7 +68,7 @@
 	
 	;aff(+-r91)
 	mv2acc r91
-	!s cmp r100
+	!s add r100
 	add r50
 	mv2reg r99
 	mv2acc r98
@@ -98,7 +98,7 @@ boucle:
 	
 	;aff(+-r91)
 	mv2acc r91
-	!s cmp r100
+	!s add r100
 ?p LE mul r48
 	add r50
 	mv2reg r99
