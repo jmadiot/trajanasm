@@ -3,7 +3,7 @@
 (*Indispensable pour avoir des bons flocons biens chaotiques*)
 
 (*Nombre de flocons*)
-let n=20;;
+let n=300;;
 
 (*Dimensions de l'écran*)
 let w=80;;
