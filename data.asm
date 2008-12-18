@@ -1,3 +1,5 @@
+;NOTE : POUR CE FICHIER, IL FAUT QUE LES JMRI INCREMENTENT LE STACK POINTER
+
 	ldl 0
 	mv2reg r100
 	ldl 15
@@ -55,16 +57,13 @@ start:
 	ldl 5
 	mv2reg r2
 	
-	nop
-	nop
-	nop
 	ldlline
 	ldhline
 	add r2
 	mv2reg r2
 	jmri skip
-		;data 2 15 14 10 15 21 18 37 12 5 19 37 7 5 14 19 37 51 52 51 52 0
-		data 10 15 25 5 21 24 37 14 15 5 12 0
+		data 2 15 14 10 15 21 18 37 12 5 19 37 7 5 14 19 37 51 52 51 52 0
+		;data 10 15 25 5 21 24 37 14 15 5 12 0
 	skip:
 	
 	;r2 : tête de lecture
