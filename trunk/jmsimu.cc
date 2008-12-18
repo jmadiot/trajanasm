@@ -97,7 +97,7 @@ void render_all()
 	}
 }
 
-
+int compteur=0;
 void step()
 {
 	bool doInstr = false;
@@ -154,6 +154,29 @@ void step()
 	tempFlagV = flagV;
 	tempFlagN = flagN;
 	tempFlagZ = flagZ;
+	
+	int i=-2;compteur++;
+	if(false && compteur%10==0)
+		cout << "mem[0x1000...0x100C]=["
+		<< mem[0x1000-1] << " ("
+		<< mem[0x1000+0] << ", "
+		<< mem[0x1000+1] << ", "
+		<< mem[0x1000+2] << ", "
+		<< mem[0x1000+3] << ", "
+		<< mem[0x1000+4] << ")  ("
+		<< mem[0x1000+5] << ", "
+		<< mem[0x1000+6] << ", "
+		<< mem[0x1000+7] << ", "
+		<< mem[0x1000+8] << ", "
+		<< mem[0x1000+9] << ")  ("
+		<< mem[0x1000+10] << ", "
+		<< mem[0x1000+11] << ", "
+		<< mem[0x1000+12] << ", "
+		<< mem[0x1000+13] << ", "
+		<< mem[0x1000+14] << ", "
+		<< mem[0x1000+15] << " "
+		 << "]" << endl;
+	
 	
 	if (doInstr==true){
 		switch (instrCode) {
