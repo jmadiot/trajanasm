@@ -293,9 +293,9 @@
 			add r5
 			mv2reg r5
 			jmri skip
-				datasigned 4 67 -67 0 9 -5 2
+				datasigned 4 67 -4567 0 15419 -5 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -25
 			skip:
-			ldl 6
+			ldl 25
 			mv2reg r4
 	
 	
