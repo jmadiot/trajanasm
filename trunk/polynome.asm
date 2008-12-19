@@ -298,7 +298,7 @@
 			skip:
 			ldl 3
 			mv2reg r4
-			ldl 110
+			ldl 5
 			mv2reg r6
 	
 	
@@ -583,6 +583,7 @@
 		skiperror:
 
 nosegfault:
+	nop
 	jmri nosegfault
 
 

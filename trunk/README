@@ -1,0 +1,67 @@
+
+Explications
+
+	Rapport
+	
+		le fichier rapport.tex (rapport.pdf) explique ce 
+		qu'on a fait.
+	
+	
+	Man
+		
+		Compiler de l'asssembleur
+			./asm < fichier.asm > fichier.obj
+		
+		Compiler asm.cc et simu.cc
+			make
+			(ou make asm pui make simu)
+			
+		Compiler tous les asm
+			make obj
+		
+		Effacer tout ce qui a été compilé
+			make clean
+		
+		Simuler
+			./simu -a PERIODE < fichier.obj
+			PERIODE = 10 par défaut
+	
+	
+	
+	Fichiers principaux
+
+		plot.asm, plottext.asm
+			Routines du même nom, et leur utilisation.
+
+
+		polynome.asm
+			Affichage et évaluation d'un polynôme.
+
+
+		noel.asm
+			Affichage de ABC....789. Ainsi que "JOYEUX NOEL".
+			Avec de la neige qui tombe derrière !
+
+			Attention, c'est lent : il faut l'utiliser en 
+			accélérant le simulateur : 
+				./simu -a 300 < noel.obj
+
+
+	Fichiers secondaires
+
+		pong.asm
+			Une balle qui rebondit, comme Chuck Norris qui 
+			joue à pong.
+
+
+		neige.asm
+			Affiche de la neige, seulement de la neige,
+			mais bien.
+		
+		canon.ml
+			Génère du code pour mettre dans neige.asm ou noel.asm.
+			Parce qu'il faut que les flocons soient aléatoires.
+
+
+
+

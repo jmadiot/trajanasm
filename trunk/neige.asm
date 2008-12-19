@@ -29,6 +29,13 @@
 		mv2reg r16
 	
 
+	;POSITION PRECEDENTE
+		ldl -64
+		ldh 0x12
+		add r5
+		mv2reg r22
+
+
 	;UTILISER canon.ml POUR GENERER LE CODE DES FLOCONS DE NEIGE CI-DESSOUS
 	
 	
@@ -45,10 +52,6 @@
 			mv2reg r20
 			ldl 27
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -74,10 +77,6 @@
 			mv2reg r20
 			ldl 40
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -104,10 +103,6 @@
 			mv2reg r20
 			ldl 20
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -133,10 +128,6 @@
 			mv2reg r20
 			ldl 15
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -163,10 +154,6 @@
 			mv2reg r20
 			ldl 2
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -192,10 +179,6 @@
 			mv2reg r20
 			ldl 20
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -221,10 +204,6 @@
 			mv2reg r20
 			ldl 40
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -251,10 +230,6 @@
 			mv2reg r20
 			ldl 29
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -280,10 +255,6 @@
 			mv2reg r20
 			ldl 42
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -309,10 +280,6 @@
 			mv2reg r20
 			ldl 21
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -338,10 +305,6 @@
 			mv2reg r20
 			ldl 36
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -368,10 +331,6 @@
 			mv2reg r20
 			ldl 25
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -397,10 +356,6 @@
 			mv2reg r20
 			ldl 56
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -427,10 +382,6 @@
 			mv2reg r20
 			ldl 44
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -457,10 +408,6 @@
 			mv2reg r20
 			ldl 0
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -487,10 +434,6 @@
 			mv2reg r20
 			ldl 30
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl -1
 			ldh -1
@@ -517,10 +460,6 @@
 			mv2reg r20
 			ldl 12
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -546,10 +485,6 @@
 			mv2reg r20
 			ldl 42
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -575,10 +510,6 @@
 			mv2reg r20
 			ldl 51
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23
@@ -604,10 +535,6 @@
 			mv2reg r20
 			ldl 13
 			mv2reg r21
-		;POSITION PRECEDENTE
-			ldl 0
-			add r5
-			mv2reg r22
 		;VITESSE
 			ldl 1
 			mv2reg r23

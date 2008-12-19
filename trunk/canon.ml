@@ -3,7 +3,7 @@
 (*Indispensable pour avoir des bons flocons biens chaotiques*)
 
 (*Nombre de flocons*)
-let n=300;;
+let n=50;;
 
 (*Dimensions de l'écran*)
 let w=80;;
@@ -29,10 +29,10 @@ for i=0 to n-1 do
 	Printf.printf "%s%s%sldl %d\n" tab tab tab (Random.int h);
 	Printf.printf "%s%s%smv2reg r21\n" tab tab tab;
 	
-	if v then Printf.printf "%s%s;POSITION PRECEDENTE\n" tab tab;
+	(*if v then Printf.printf "%s%s;POSITION PRECEDENTE\n" tab tab;
 	Printf.printf "%s%s%sldl 0\n" tab tab tab;
 	Printf.printf "%s%s%sadd r5\n" tab tab tab;
-	Printf.printf "%s%s%smv2reg r22\n" tab tab tab;
+	Printf.printf "%s%s%smv2reg r22\n" tab tab tab;*)
 	
 	if v then Printf.printf "%s%s;VITESSE\n" tab tab;
 	if Random.bool () then
