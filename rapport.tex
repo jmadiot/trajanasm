@@ -3,13 +3,13 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\author{Jean-Marie Madiot & Hugo Feree}
+\author{Jean-Marie Madiot\\Hugo Feree}
 \title{Un peu d'assembleur dans notre processeur} 
 \date{}
 
 \begin{document} 
-
 \maketitle
+
 
 \section{Compilateur} 
 
@@ -48,7 +48,7 @@ Nous avons également réécrit la gestion des flags dans les instructions {\tt 
  
 \subsection{\tt rts}
 
-Nous avons permuté les deux lignes de {\tt rts}, ce qui nous semblait plus logique : {\tt mem[--r127]} au lieu de {\tt mem[r127--]}, ce qui reste cohérent avec les sauts à modification de pile.
+Nous avons permuté les deux lignes de {\tt rts}, ce qui nous semblait plus logique : {\tt mem[-{-}r127]} au lieu de {\tt mem[r127-{-}]}, ce qui reste cohérent avec les sauts à modification de pile.
 
 \subsection{\tt mul}
 
@@ -57,6 +57,7 @@ Nous avons reprogrammé la multiplication sur 16 bits au lieu de 8, et avec une 
 \subsection{\tt cmp}
 
 En réutilisant le code de {\tt sub}, nous avons fait en sorte que {\tt cmp} gère la pleine comparaison au lieu de la simple égalité.
+
 
 \section{Un peu de maths} 
 
@@ -67,6 +68,26 @@ Pour plus de détails, voir les commentaires dans le fichier même.
 \section{Joyeux Noël !}
 
 Le fichier {\tt neige.asm} affiche ce que l'on veut. Pour cela, le fichier {\tt canon.ml} nous a permis de générer automatiquement le code qui gère l'affichage de chaque flocon.
+
+
+
+\section{jmrisp, jmri, jmi} 
+
+Il est important de noter qu'on a modifié le jeu d'instructions pour faire fonctionner les fichiers {\tt plot.asm} et {\tt plottext.asm} de façon cohérente.
+
+Modifications :
+\begin{itemize}
+\item jmi : ne modifie pas la pile d'appels, jugé inutile, et inutilisé. Nous l'avons enlevé.
+\item jmri : ne modifie pas la pile d'appels, très utile pour les sauts courts conditionnels, les boucles, etc.
+\item jmrisp : similaire à jmri mais modifie la pile d'appels, très utiles pour les fonctions avec rts.
+\end{itemize}
+
+Evidemment ces changements n'étaient pas indispensables, mais ils facilitent l'écriture et la compilation des programmes. Pour éviter ces changements, on aurait pu systématiser mieux les {\tt ldlline} et {\tt ldhline} pour pouvoir utiliser jmp sans avoir à changer le jeu d'instructions.
+
+A noter que les autres fichiers {\tt .asm} fonctionnent sans ce changement. (Modifier simplement le fonctionnement de {\tt jmri} en le faisant modifier la pile d'appels fait exploser la pile.)
+
+\textit{A posteriori} il aurait été préférable de passer plus de temps sur le compilateur {\tt asm.cc} sans changer le jeu d'instructions, car la multiplication des appels à {\tt jmri} faisait sauvegarder la ligne en cours dans un registre manuellement (laborieux).
+
 
 
 

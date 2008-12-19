@@ -357,12 +357,21 @@ uint32_t read_op(list<string>  & slist, uint32_t current_address) {
         exit(-1);
 	}
   }
-  else if (slist.front() == "jmi") {
+  /*else if (slist.front() == "jmi") {
     slist.pop_front();
     code += 12 << 11;
     code += read_imm8_or_label(slist, JMI);
 	if (sr>0) {
 		cerr << "Error, line " << line_number << ": !s option not permitted in "<< slist.front() <<" ."<<  endl;
+        exit(-1);
+	}
+  }*/
+  else if (slist.front() == "jmrisp") {
+    slist.pop_front();
+    code += 12 << 11; 
+    code += read_imm8_or_label(slist, JMRI);
+	if (sr>0) {
+		cerr << "Error, line " << line_number << ": !s option useless in "<< slist.front() <<" ."<<  endl;
         exit(-1);
 	}
   }

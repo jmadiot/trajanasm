@@ -1,4 +1,4 @@
-all:simu asm ex
+all:simu asm
 
 .PHONY = all clean
 
@@ -20,11 +20,17 @@ clean:
 	rm -f *~ \#*\# *.o
 	rm -f simu
 	rm -f asm
-	rm -f ex *.cmi *.cmo
-
-ex:
-	ocamlc ex.ml -o ex
+	@#rm -f ex *.cmi *.cmo
+	rm -f *.obj
 
 
+
+obj:asm
+	./asm < neige.asm > neige.obj
+	./asm < noel.asm > noel.obj
+	./asm < plot.asm > plot.obj
+	./asm < plottext.asm > plottext.obj
+	./asm < polynome.asm > polynome.obj
+	./asm < pong.asm > pong.obj
 
 

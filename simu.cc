@@ -265,7 +265,7 @@ void step()
 				else 
 					tempPC = pc - ((0xFFFF ^ r[reg])+1);
 			break;
-			case 12:   // jmi
+			/*case 12:   // jmi
 				
 				if (imm>127) //trying to jump at a negative address
 				{
@@ -276,6 +276,16 @@ void step()
 				tempPC = imm;
 				
 				cout << "Never use jmi, too dangerous.\n";
+			break;*/
+			case 12:   // jmrisp  :  jmri avec stack modifier
+				//check sign of imm
+				mem[r[127]] = pc;
+				r[127]++;
+				signImm = imm>>7;
+				if (signImm==0) 
+					tempPC = pc + imm; //jump forward
+				else 
+					tempPC = pc - ((imm ^ 0xFF)+1); //jump back
 			break;
 			case 13:   // jmri, ON VA DIRE QU'ON EMPILE, c'est celui qui marche...
 				//check sign of imm
