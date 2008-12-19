@@ -54,11 +54,12 @@
 		;add r10
 		;add r5
 		;mv2reg r27
-		;nop
-		;nop
-		;nop
-		;nop
-		;nop   ;quand on décommente ces nop, ça merde comme pas possible. Pourquoi ? Je sais pas.
+		nop
+		nop
+		nop
+		nop
+		nop
+		;quand on décommente ces nop, ça merde comme pas possible. Pourquoi ? Je sais pas.
 		;; je "commit". Finirai plus tard.
 	
 		;boucle:

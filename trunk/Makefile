@@ -20,6 +20,7 @@ clean:
 	rm -f *~ \#*\# *.o
 	rm -f simu
 	rm -f asm
+	rm -f jmsimu
 
 
 jm:jmsimu jmasm
