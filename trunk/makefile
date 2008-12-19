@@ -1,4 +1,4 @@
-all:simu asm
+all:simu asm ex
 
 .PHONY = all clean
 
@@ -20,17 +20,10 @@ clean:
 	rm -f *~ \#*\# *.o
 	rm -f simu
 	rm -f asm
-	rm -f jmsimu
+	rm -f ex *.cmi *.cmo
 
-
-jm:jmsimu jmasm
-
-
-jmsimu:
-	g++ jmsimu.cc -lX11 -L/usr/X11R6/lib -lX11 -o jmsimu
-
-jmasm:
-	
+ex:
+	ocamlc ex.ml -o ex
 
 
 
