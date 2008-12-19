@@ -106,7 +106,6 @@ void step()
 	bool tempFlagV, tempFlagN, tempFlagZ;
 	bool signRi;
 	bool signImm;
-	int temp;
 	uint16_t dev;
 	int j;
 	uint16_t val;
@@ -135,7 +134,6 @@ void step()
 
 	//predicate execution: check if the instruction with instrCode will be executed
 	//or the processor will just jump to the next one.
-	//TODO check for corectness
 	switch (instrPred) {
 		#define zero flagZ
 		#define negative flagN
@@ -154,30 +152,6 @@ void step()
 	tempFlagV = flagV;
 	tempFlagN = flagN;
 	tempFlagZ = flagZ;
-	
-	//DEBUGGING
-	int i=-2; //A SUPPRIMER
-	compteur++;
-	if(false && compteur%10==0)
-		cout << "mem[0x1000...0x100C]=["
-		<< mem[0x1000-1] << " ("
-		<< mem[0x1000+0] << ", "
-		<< mem[0x1000+1] << ", "
-		<< mem[0x1000+2] << ", "
-		<< mem[0x1000+3] << ", "
-		<< mem[0x1000+4] << ")  ("
-		<< mem[0x1000+5] << ", "
-		<< mem[0x1000+6] << ", "
-		<< mem[0x1000+7] << ", "
-		<< mem[0x1000+8] << ", "
-		<< mem[0x1000+9] << ")  ("
-		<< mem[0x1000+10] << ", "
-		<< mem[0x1000+11] << ", "
-		<< mem[0x1000+12] << ", "
-		<< mem[0x1000+13] << ", "
-		<< mem[0x1000+14] << ", "
-		<< mem[0x1000+15] << " "
-		 << "]" << endl;
 	
 	if (doInstr==true){
 		switch (instrCode) {
@@ -351,7 +325,7 @@ void step()
 				
 				r[0] = v_acc & 0xFFFF;
 				if ((sign_r0 ^ sign_r)==1){ //different signs
-					flagV == 0;
+					flagV = 0;
 					flagN = (r[0]>>15);	
 				}
 				else
@@ -384,7 +358,7 @@ void step()
 				
 				r[0] = v_acc & 0xFFFF;
 				if ((sign_r0 ^ sign_r)==1){ //different signs
-					flagV == 0;
+					flagV = 0;
 					flagN = (r[0]>>15);	
 				}
 				else
@@ -434,7 +408,7 @@ void step()
 				
 			break;
 			case 21:   //cmp : interprétation de ouf : je fais la différence et je ne garde que les flags
-				/*temp  = r[0] - r[reg];
+				/*int temp  = r[0] - r[reg];
 				if (temp==0){
 					flagV=0;flagN=0;flagZ=1;								
 				}else{
@@ -449,7 +423,7 @@ void step()
 				sign_r = (r[reg]>>15) ^ 1; 
 
 				;
-				flagV == 0;
+				flagV = 0;
 				if ((sign_r0 ^ sign_r)==1){ //different signs
 					flagN = ((v_acc & 0xFFFF)>>15);	
 				}
@@ -535,11 +509,11 @@ void step()
 				else
 					{flagZ=0;flagN=0;flagV=0;}
 			break;
-			case 31: //rol
+			case 31: //rol (not done, not used.)
 				val=0;
 				for (j=15;j>15-r[reg];j--)
 					val+= 1<<j; //pow(2,j);
-				r[0] = (r[0]>>r[reg]) + ((r[0]&val)>>(16-r[reg])); //TODO
+				r[0] = (r[0]>>r[reg]) + ((r[0]&val)>>(16-r[reg]));
 				if (r[0]==0)
 					{flagZ=1;flagN=0;flagV=0;}								
 				else
