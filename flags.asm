@@ -251,6 +251,61 @@
 
 
 
+
+	ldl 120
+	ldh 0
+	mv2reg r3
+	
+	ldl 120
+	ldh 0
+	
+	!s mul r3
+	mv2acc r5
+	add r7
+	add r7
+	add r7
+	add r7
+
+?p GT wrinc r107
+?p GT wrinc r120
+?p GT wrinc r37
+
+?p GE wrinc r107
+?p GE wrinc r105
+?p GE wrinc r37
+
+?p EQ wrinc r105
+?p EQ wrinc r117
+?p EQ wrinc r37
+
+?p NE wrinc r114
+?p NE wrinc r105
+?p NE wrinc r37
+
+?p LE wrinc r112
+?p LE wrinc r105
+?p LE wrinc r37
+
+?p LT wrinc r112
+?p LT wrinc r120
+?p LT wrinc r37
+
+?p OV wrinc r115
+?p OV wrinc r122
+?p OV wrinc r37
+
+?p NC wrinc r114
+?p NC wrinc r103
+?p NC wrinc r37
+
+
+
+
+
+
+
+
+
 	;ldl -1
 	;ldh -1
 	;mv2reg r66

@@ -336,8 +336,8 @@ void step()
 				tempPC= mem[r[127]]+1;
 			break;
 			case 17:   // nop,
-				cout << "NOP !" << endl;
-				sleep(1);
+				//cout << "NOP !" << endl;
+				//sleep(1);
 			break;
 			case 18:   // add,
 				
