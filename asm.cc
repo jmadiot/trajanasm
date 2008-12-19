@@ -243,7 +243,7 @@ uint32_t read_imm16_or_label(list<string>  & slist){
 
 
 // this function returns the 16-bit code of an instruction
-uint32_t read_op(list<string>  & slist, uint32_t current_adress) {
+uint32_t read_op(list<string>  & slist, uint32_t current_address) {
   uint32_t code;
   code = 0;
   uint32_t pred;
@@ -323,16 +323,19 @@ uint32_t read_op(list<string>  & slist, uint32_t current_adress) {
     code += read_reg(slist);
   }
   
-  
-  else if (slist.front() == "ldlline") {  //Enregistre le numéro de la ligne en cours dans l'acc, en partie basse
+  //Enregistre le numéro de la ligne en cours dans l'accumulateur, en partie basse
+  //Transformé en "ldl xx" ou xx est l'adresse en cours modulo 256
+  else if (slist.front() == "ldlline") {  
     slist.pop_front();
     code += 0 << 11;
-    code += current_adress%256;
+    code += current_address%256;
   }
-  else if (slist.front() == "ldhline") {  //Enregistre le numéro de la ligne en cours dans l'acc, en partie basse
+  //Enregistre le numéro de la ligne en cours dans l'accumulateur, en partie haute
+  //Transformé en "ldh xx" ou xx est l'adresse en cours divisée par 256
+  else if (slist.front() == "ldhline") {
     slist.pop_front();
     code += 1 << 11;
-    code += current_adress>>8;
+    code += current_address>>8;
   }
   
   
@@ -381,7 +384,7 @@ uint32_t read_op(list<string>  & slist, uint32_t current_adress) {
         exit(-1);
 	}
   }
-  else if (slist.front() == "jsi") {           ////TODO
+  else if (slist.front() == "jsi") {
     slist.pop_front();
     code += 15 << 11;
     code += read_imm8_or_label(slist, JMSI);
@@ -390,7 +393,7 @@ uint32_t read_op(list<string>  & slist, uint32_t current_adress) {
         exit(-1);
 	}
   }
-  else if (slist.front() == "rts") {           ////TODO
+  else if (slist.front() == "rts") {
     slist.pop_front();
     code += 16 << 11;
   }
@@ -400,7 +403,7 @@ uint32_t read_op(list<string>  & slist, uint32_t current_adress) {
 	if (sr>0) {
 		cerr << "Error, line " << line_number << ": !s option completely useless in "<< slist.front() <<" ."<<  endl;
         exit(-1);
-	} //TODO : il devrait n'y avoir rien après : détecter ça.
+	}
   }
   else if (slist.front() == "add") {
     slist.pop_front();
@@ -544,20 +547,8 @@ int main(int argc, char* argv[]){
 			uint32_t code = 0;
 
 			s = slist.front();
-
-			if (s.length()==5 && s=="datax") {
-				slist.pop_front();
-				while(!slist.empty()) {
-					s = slist.front();
-					istringstream iss(s);
-					int e;
-					iss >> hex >> e;
-					slist.pop_front();
-					hexcode.push_back(e);
-				}
-				
-			}
-
+			
+			//Ecrit les entiers à la place des instructions
 			if (s.length()==4 && s=="data") {
 				slist.pop_front();
 				while(!slist.empty()) {
@@ -569,9 +560,22 @@ int main(int argc, char* argv[]){
 					hexcode.push_back(e);
 					current_address ++;
 				}
-				
 			}
 			
+			//Ecrit les entiers à la place des instructions (codés en hexadécimal)
+			if (s.length()==5 && s=="datax") {
+				slist.pop_front();
+				while(!slist.empty()) {
+					s = slist.front();
+					istringstream iss(s);
+					int e;
+					iss >> hex >> e;
+					slist.pop_front();
+					hexcode.push_back(e);
+				}
+			}
+
+			//Ecrit les entiers à la place des instructions (signés)
 			if (s.length()==10 && s=="datasigned") {
 				slist.pop_front();
 				while(!slist.empty()) {
@@ -584,7 +588,6 @@ int main(int argc, char* argv[]){
 					hexcode.push_back(e);
 					current_address ++;
 				}
-				
 			}
 
 

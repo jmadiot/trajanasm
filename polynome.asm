@@ -285,7 +285,7 @@
 			wrinc r85
 			wrinc r86
 		
-		;METHODE PLUS MIEUX (DEBUGGING)
+		;MEILLEURE METHODE POUR MODIFIER LE POLYNOME (DEBUGGING)
 			ldl 5
 			mv2reg r5
 			ldlline
@@ -298,11 +298,11 @@
 			skip:
 			ldl 3
 			mv2reg r4
-			ldl 11
+			ldl 110
 			mv2reg r6
 	
 	
-	;FIRST PLUS : REGISTER USED r8 = 2 au premier parcours  et  1 aux suivants.
+	;FIRST PLUS : REGISTER USED r8 = 2 au premier parcours et 1 aux suivants.
 		ldl 2
 		mv2reg r8
 	
@@ -466,36 +466,43 @@
 
 	
 	;EVALUATION
-		ldl 44
-		mv2reg r70
-		ldl 45
-		mv2reg r71
-		ldl 47
-		mv2reg r72
-		ldl 37
-		mv2reg r73
+		;CARACTERES
+			ldl 44
+			mv2reg r70
+			ldl 45
+			mv2reg r71
+			ldl 47
+			mv2reg r72
+			ldl 37
+			mv2reg r73
 		
-		;DISPLAY "[r6]="
-			mv2acc r98
-			wrinc r73
-			wrinc r70
-			mv2reg r98
-		
-			mv2acc r6
-			mv2reg r99
-			;GOANDRETURN
-				ldl 5
-				mv2reg r13
-				ldlline
-				ldhline
-				add r13
-				mv2reg r13
-				jmp r12
-		
-			mv2acc r98
-			wrinc r71
-			wrinc r72
-			mv2reg r98
+		;AFFICHE LE POINT EN LEQUEL LE POLYNOME EST EVALUE. sous la forme : " [r6]="
+			;AFFICHE " ["
+				mv2acc r98
+				wrinc r73
+				wrinc r70
+				mv2reg r98
+			
+			;AFFICHE L'ENTIER
+				mv2acc r6
+				mv2reg r99
+				;ADDRESS TO RETURN
+					ldl 5
+					mv2reg r13
+					ldlline
+					ldhline
+					add r13
+					mv2reg r13
+				;GO
+					jmp r12
+			
+			;AFFICHE "]="
+					mv2acc r98
+					wrinc r71
+					wrinc r73
+					wrinc r72
+					wrinc r73
+					mv2reg r98
 		
 		;r9=resultat
 			ldl 0

@@ -1,45 +1,54 @@
-	ldl 0
-	mv2reg r1
+	;POSITION : X, Y
+		ldl 20
+		mv2reg r1
+		
+		ldl 5
+		mv2reg r2
 
-	ldl 0
-	mv2reg r2
-
-	ldl 1
-	mv2reg r3
-
-	ldl 5
-	mv2reg r4
-
-
-
-
-	ldl 0
-	ldh 0x20
-	mv2reg r5 
-
+	;POINTEUR DE TETE
+		ldl 0
+		ldh 0x04
+		mv2reg r3
+	
+	;LONGUEUR
+		ldl 6
+		mv2reg r4
+	
+	
+	
+	
+	
+	
+	;TOPLEFT
+		ldl 0
+		ldh 0x20
+		mv2reg r5 
+	
+	;ROUTINES
 	jmri init
 
-plot:
-	ldl 80
-	mul r2
-	add r1
-	add r5
-	wr r3
-	jmri lab
-
-init:
-	ldl 1           
-	mv2reg r6
-	; constante 1
-
-	mv2acc r3
-	sub r6
-	mv2reg r3
-
-	mv2acc r5
-	sub r6
-	mv2reg r5
-
+	plot:
+		ldl 80
+		mul r2
+		add r1
+		add r5
+		wr r3
+		jmri lab
+	
+	;PROGRAMME
+		init:
+		ldl 1           
+		mv2reg r6
+		; constante 1
+	
+		mv2acc r3
+		sub r6
+		mv2reg r3
+	
+		mv2acc r5
+		sub r6
+		mv2reg r5
+	
 
 lab:
 	clr r66
