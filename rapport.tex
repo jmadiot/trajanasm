@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\author{Jean-Marie Madiot & Hugo Feree}
+\title{Un peu d'assembleur dans notre processeur} 
+\date{}
+
+\begin{document} 
+
+\maketitle
+
+\section{Compilateur} 
+
+\subsection{Modification du fichier asm.cc} 
+
+Nous avons complété les instructions à l'aide des fonctions {\tt read\_reg} et {\tt read\_imm8\_or\_label} fournies.
+Nous avons ajouté les instructions {\tt ldlline} et {\tt ldhline} qui chargent dans l'accumulateur respectivement les bits de poids faible et de poids fort de l'adresse mémoire de la ligne courante.
+
+Pour cela, on passe la ligne courante ({\tt current\_address}) en argument à {\tt read\_op}. 
+
+\subsection{Data}
+(Ou comment écrire dans la mémoire directement)
+
+Au lieux d'écrire $3n$ lignes de code pour stocker $n$ entiers en mémoire à l'aide de multiples registres, nous avons décidé de pouvoir utiliser le programme comme donnée. c'est à dire qu'à certains endroits du programme, un mot de 16 bits n'est plus considéré comme une instruction, mais comme une donnée. Ainsi, en écrivant : 
+\begin{verbatim}
+data 10 15 25 5 21 24 37 14 15 5 12 0
+\end{verbatim}
+le compilateur écrit les instructions codées par les entiers 10, 15, 25, etc.
+Ainsi, on peut considérer ces instructions comme des données qu'on pourra lire en connaissant leur adresse dans la mémoire grâce à {\tt ldlline} et {\tt ldhline}.
+
+Les données ci-dessus représentent la chaîne de caractères "JOYEUX NOEL" suivie du caractère nul pour marquer la fin de la chaîne comme en C.
+
+\section{Simulateur}
+
+Hormis la suppression de quelques variables et {\tt include}s ainsi que la modification de {\tt rom.data}, nous voudrions insister sur les points suivants.
+
+\subsection{Flags}
+
+Nous avons renommé les flags, ce qui permettait de gérer les prédicats plus clairement, notamment en gérant les overflows différemment. Le comportement est peut-être différent du simulateur initial, mais nous paraît plus cohérent.
+
+Nous avons également réécrit la gestion des flags dans les instructions {\tt add}, {\tt sub}, {\tt cmp} et {\tt mul}.
+
+\subsection{Fréquence d'actualisation}
+ 
+ Le simulateur de base étant beaucoup trop lent, nous avons augmenté la période de rafraîchissement. Celle-ci est modifiable lors de l'appel du simulateur à l'aide de l'option -a suivie du nombre d'instructions entre deux rafraîchissements. 
+ 
+\subsection{\tt rts}
+
+Nous avons permuté les deux lignes de {\tt rts}, ce qui nous semblait plus logique : {\tt mem[--r127]} au lieu de {\tt mem[r127--]}, ce qui reste cohérent avec les sauts à modification de pile.
+
+\subsection{\tt mul}
+
+Nous avons reprogrammé la multiplication sur 16 bits au lieu de 8, et avec une gestion correcte des overflows.
+
+\subsection{\tt cmp}
+
+En réutilisant le code de {\tt sub}, nous avons fait en sorte que {\tt cmp} gère la pleine comparaison au lieu de la simple égalité.
+
+\section{Un peu de maths} 
+
+Le fichier {\tt polynôme.asm} se compose de l'affichage d'un entier, de l'écriture du polynôme dans la mémoire, de l'affichage du polynôme et de son évaluation en un point.
+
+Pour plus de détails, voir les commentaires dans le fichier même. 
+
+\section{Joyeux Noël !}
+
+Le fichier {\tt neige.asm} affiche ce que l'on veut. Pour cela, le fichier {\tt canon.ml} nous a permis de générer automatiquement le code qui gère l'affichage de chaque flocon.
+
+
+
+
+
+
+
+\end{document}
